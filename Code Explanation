@@ -1,0 +1,126 @@
+Step 1: Class definition
+
+```
+public class Queens
+{
+}
+```
+
+This line defines a new class called `Queens`. Classes are used to group related data and functionality together.
+
+Step 2: Private variables
+
+```
+private int[] queens;
+private static string queenLogo = "\u2655";
+public int noOfSolutions = 0;
+```
+
+These lines declare three private variables:
+
+* `queens`: An array of integers that will store the positions of the queens on the chessboard.
+* `queenLogo`: A string containing the Unicode character for the queen logo.
+* `noOfSolutions`: An integer that keeps track of the number of solutions found.
+
+Step 3: Constructor
+
+```
+public Queens(int size)
+{
+  this.queens = new int[size];
+}
+```
+
+This is the constructor for the `Queens` class. It takes the size of the chessboard as input and creates a new `queens` array of that size.
+
+Step 4: `Arrange()` method
+
+```
+public void Arrange()
+{
+  PlaceQueens(0, queens.Length);
+}
+```
+
+This method attempts to place the specified number of queens on the chessboard, starting from row 0. It calls the `PlaceQueens()` method recursively to place the queens on the remaining rows.
+
+Step 5: `PlaceQueens()` method
+
+```
+private void PlaceQueens(int row, int size)
+{
+
+  // for each column in the row 
+  for (int c = 0; c < size; c++)
+  {
+    // if the queen can be placed in this column
+    if (CanPlaceQueen(row, c))
+    {
+      // set the column for the current row
+      queens[row] = c;
+
+      // if all the rows are done - print the result
+      if (row == size - 1)
+      {
+          PrintResult(queens);
+      }
+      else
+      {
+          // Go to the next Row
+          PlaceQueens(row + 1, size);
+      }
+    }
+  }
+}
+```
+
+This method attempts to place a queen on the specified row and column. It first calls the `CanPlaceQueen()` method to check if it is safe to place a queen in that location. If it is safe, it sets the column for the current row and then recursively calls itself to place the queens on the remaining rows.
+
+Step 6: `CanPlaceQueen()` method
+
+```
+private bool CanPlaceQueen(int row, int col)
+{
+  // For each row
+  for (int i = 0; i < row; i++)
+  {  // if you have a queen in the same column OR a diagonal threat return false
+    if (queens[i] == col || (i - row) == (queens[i] - col) || (i - row) == (col - queens[i]))
+    {
+      return false;
+    }
+  }
+  return true;
+}
+```
+
+This method checks if it is safe to place a queen on the specified row and column. It does this by checking if there is already a queen in the same column or on a diagonal threat. If there is, it returns `false`. Otherwise, it returns `true`.
+
+Step 7: `PrintResult()` method
+
+```
+private void PrintResult(int[] result)
+{
+  int n = result.Length;
+  for (int i = 0; i < n; i++)
+  {
+    for (int j = 0; j < n; j++)
+    {
+      if (result[i] == j)
+      {
+          Console.Write(queenLogo + " ");
+      }
+      else
+      {
+          Console.Write("- ");
+      }
+    }
+    Console.WriteLine();
+  }
+  // Completed Solve
+  noOfSolutions++;
+  Console.WriteLine("Solution: " + noOfSolutions.ToString());
+  Console.WriteLine();
+}
+```
+
+This method prints the specified `result` array to the console. The `result` array contains the positions of the queens on the chessboard. The method prints a `queenLogo` character at each position where there is a queen, and a `-` character at each position where there is no queen.
